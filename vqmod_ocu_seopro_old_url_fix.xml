@@ -1,0 +1,31 @@
+<modification>
+
+  <id>OpenCart SeoPro Old URL fix</id>
+  <version>1.0</version>
+  <vqmver>2.1.5</vqmver>
+  <author>Eugene Kuligin</author>
+  <website>http://www.opencart.ua</website>
+  <email>support@opencart.ua</email>
+
+
+  <file name="catalog/controller/product/product.php">
+    <operation>
+      <search position="before">
+        <![CDATA[
+          $this->load->model('catalog/product');
+        ]]>
+      </search>
+      <add>
+        <![CDATA[
+            if (substr(HTTP_SERVER, 0, -1) . $_SERVER['REQUEST_URI'] != $this->url->link('product/product', 'product_id=' . $product_id)) {
+            header ('HTTP/1.1 301 Moved Permanently');
+            header('Location: '.$this->url->link('product/product', 'product_id=' . $product_id));
+            exit;
+        }
+        ]]>
+      </add>
+    </operation>
+  </file>
+
+
+</modification>
